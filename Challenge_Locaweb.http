@@ -1,0 +1,6 @@
+@Challenge_Locaweb_HostAddress = http://localhost:5116
+
+GET {{Challenge_Locaweb_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
