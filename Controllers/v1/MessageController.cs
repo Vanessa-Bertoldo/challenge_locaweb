@@ -42,24 +42,39 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">Email a ser procurado as mensagens.</param>
         /// <returns>Status 200.</returns>
-        [HttpGet("{email}", Name = "EmailListReceive") ]
-        public async Task<List<MessageMongoModel>> EmailListReceive(string email)
-            => await _messageService.EmailListReceive(email);
+        [HttpGet("receive/{email}", Name = "EmailListReceive")]
+        public async Task<ActionResult<List<MessageMongoModel>>> EmailListReceive(string email)
+        {
+            var result = await _messageService.EmailListReceive(email);
+            if (result == null)
+            {
+                return BadRequest("Invalid email address");
+            }
+            return Ok(result);
+        }
 
         /// <summary>
         /// Lista os emails enviados de um usuário
         /// </summary>
         /// <param name="email">Email a ser procurado as mensagens.</param>
         /// <returns>Status 200.</returns>
-        [HttpGet("{email}", Name = "EmailListSend")]
-        public async Task<List<MessageMongoModel>> EmailListSend(string email)
-            => await _messageService.EmailListSend(email);
+        [HttpGet("send/{email}", Name = "EmailListSend")]
+        public async Task<ActionResult<List<MessageMongoModel>>> EmailListSend(string email)
+        {
+            var result = await _messageService.EmailListSend(email);
+            if (result == null)
+            {
+                return BadRequest("Invalid email address");
+            }
+            return Ok(result);
+        }
 
         /// <summary>
         /// Lista os emails favoritos de um usuário
         /// </summary>
         /// <param name="email">Email a ser procurado as mensagens favoritas.</param>
         /// <returns>Status 200.</returns>
+        [HttpGet("{email}", Name = "EmailFavoritelList")]
         public async Task<List<MessageMongoModel>> EmailFavoritelList(string email)
             => await _messageService.EmailFavoritelList(email);
     }

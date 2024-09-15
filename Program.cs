@@ -1,5 +1,6 @@
 using Challenge_Locaweb.Models;
 using Challenge_Locaweb.Services;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +9,10 @@ builder.Services.Configure<MongoDBSettingsModel>(
     builder.Configuration.GetSection("MongoDBSettings"));
 
 // Registrando o serviço como singleton
+//builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddSingleton<MessageService>();
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<PreferenceService>();
 
 
 builder.Services.AddControllers();
