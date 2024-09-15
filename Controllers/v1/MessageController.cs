@@ -51,10 +51,15 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">Email a ser procurado as mensagens.</param>
         /// <returns>Status 200.</returns>
-        //[HttpGet("{email}", Name = "EmailListSend")]
-        //public async Task<List<MessageMongoModel>> EmailListSend(string email)
-        //    => await _messageService.EmailListSend(email);
+        [HttpGet("{email}", Name = "EmailListSend")]
+        public async Task<List<MessageMongoModel>> EmailListSend(string email)
+            => await _messageService.EmailListSend(email);
 
+        /// <summary>
+        /// Lista os emails favoritos de um usuário
+        /// </summary>
+        /// <param name="email">Email a ser procurado as mensagens favoritas.</param>
+        /// <returns>Status 200.</returns>
         public async Task<List<MessageMongoModel>> EmailFavoritelList(string email)
             => await _messageService.EmailFavoritelList(email);
     }
