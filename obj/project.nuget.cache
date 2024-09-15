@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "j+e1141+JILnqGA6gQPLmRpAJt1tDgDAcVX0CuRJVgwzKIbrGImoa6YTIZJ/DOpX3WXKuwf/govgM537EOXjyA==",
+  "dgSpecHash": "V4zk/TfO1AiDAUskHxXglCWYE4RR4Kxec7kGv3hAMThS89LXtftj1JrkFcWZlBtsU0tjkGwScwkRLbucvQOVqQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Z\\Documents\\projetosFaculdade\\Challenge_Locaweb\\Challenge_Locaweb.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Z\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\Z\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
+    "C:\\Users\\Z\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Z\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\Z\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Z\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\2.0.0\\microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",

@@ -44,3 +44,4 @@ C:\Users\Z\Documents\projetosFaculdade\Challenge_Locaweb\obj\Debug\net8.0\refint
 C:\Users\Z\Documents\projetosFaculdade\Challenge_Locaweb\obj\Debug\net8.0\Challenge_Locaweb.pdb
 C:\Users\Z\Documents\projetosFaculdade\Challenge_Locaweb\obj\Debug\net8.0\Challenge_Locaweb.genruntimeconfig.cache
 C:\Users\Z\Documents\projetosFaculdade\Challenge_Locaweb\obj\Debug\net8.0\ref\Challenge_Locaweb.dll
+C:\Users\Z\Documents\projetosFaculdade\Challenge_Locaweb\bin\Debug\net8.0\BCrypt.Net-Next.dll

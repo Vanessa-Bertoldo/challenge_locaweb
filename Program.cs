@@ -9,6 +9,7 @@ builder.Services.Configure<MongoDBSettingsModel>(
 
 // Registrando o serviço como singleton
 builder.Services.AddSingleton<MessageService>();
+builder.Services.AddSingleton<UserService>();
 
 
 builder.Services.AddControllers();

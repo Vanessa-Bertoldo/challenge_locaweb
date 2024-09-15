@@ -1,11 +1,14 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System.Security.Cryptography.Xml;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace Challenge_Locaweb.Models
 {
-    public class MessageModel
+    public class MessageMongoModel
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
         [BsonElement("message")]
         public string Message { get; set; }
 
@@ -19,13 +22,12 @@ namespace Challenge_Locaweb.Models
         public string Subject { get; set; }
 
         [BsonElement("isSpam")]
-        public bool IsSpam { get; set; } = false;
+        public bool IsSpam { get; set; }
 
         [BsonElement("isFavorite")]
-        public bool IsFavorite { get; set; } = false;
+        public bool IsFavorite { get; set; }
 
         [BsonElement("Archives")]
         public List<string> Archives { get; set; } = [];
-
     }
 }
