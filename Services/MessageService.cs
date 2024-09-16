@@ -1,5 +1,6 @@
 ﻿using Challenge_Locaweb.Interfaces;
 using Challenge_Locaweb.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -35,6 +36,21 @@ namespace Challenge_Locaweb.Services
 
         }
 
+        public async Task<ActionResult<List<MessageMongoModel>>> EmailListBin(string email)
+        {
+            var filter = Builders<MessageMongoModel>.Filter.And(
+                         Builders<MessageMongoModel>.Filter.Eq(m => m.IsDelete, true),
+                         Builders<MessageMongoModel>.Filter.Or(
+                             Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email),
+                             Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email)
+                         )
+                     );
+
+
+            if (filter == null) return null;
+            return await _collectionMongo.Find(filter).ToListAsync();
+        }
+
         public async Task<List<MessageMongoModel>> EmailListSend(string email)
         {
             var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email);
@@ -45,10 +61,11 @@ namespace Challenge_Locaweb.Services
         public async Task<List<MessageMongoModel>> EmailFavoritelList(string email)
         {
             var filter = Builders<MessageMongoModel>.Filter.And(
-                Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email),
-                Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email),
-                Builders<MessageMongoModel>.Filter.Eq(m => m.IsFavorite, true)
-            );
+                         Builders<MessageMongoModel>.Filter.Eq(m => m.IsFavorite, true),
+                         Builders<MessageMongoModel>.Filter.Or(
+                             Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email),
+                             Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email)
+                         ));
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
         }

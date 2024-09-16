@@ -27,6 +27,12 @@ namespace Challenge_Locaweb.Models
         [BsonElement("isFavorite")]
         public bool IsFavorite { get; set; }
 
+        [BsonElement("isDelete")]
+        public bool IsDelete { get; set; }
+
+        [BsonElement("isRead")]
+        public bool IsRead { get; set; }
+
         [BsonElement("Archives")]
         public List<string> Archives { get; set; } = [];
     }

@@ -48,16 +48,16 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="loginModel">O modelo contendo o email e a senha para login.</param>
         /// <returns>Um status indicando o resultado da operação.</returns>
-        //[HttpPost(Name = "Login")]
-        //public async Task<IActionResult> Login([FromBody] LoginModel login)
-        //{
-        //    if (login == null || string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
-        //        return BadRequest("Email e senha são obrigatórios.");
+        [HttpPost("login", Name = "Login")] 
+        public async Task<IActionResult> Login([FromBody] LoginModel login)
+        {
+            if (login == null || string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
+                return BadRequest("Email e senha são obrigatórios.");
 
-        //    var result = await _userService.Login(login.Email, login.Password); // Usa await para esperar o resultado
+            var result = await _userService.Login(login.Email, login.Password);
 
-        //    return result ? Ok("Usuário logado com sucesso") : NotFound("Usuário não encontrado");
-        //}
+            return result ? Ok("Usuário logado com sucesso") : NotFound("Usuário não encontrado");
+        }
 
     }
 }

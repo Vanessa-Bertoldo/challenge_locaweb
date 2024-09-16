@@ -1,4 +1,5 @@
 ﻿using Challenge_Locaweb.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Challenge_Locaweb.Interfaces
 {
@@ -11,5 +12,6 @@ namespace Challenge_Locaweb.Interfaces
         public Task<List<MessageMongoModel>> EmailFavoritelList(string email);
 
         public Task<List<MessageMongoModel>> GetSpans(string email);
+        public Task<ActionResult<List<MessageMongoModel>>> EmailListBin(string email);
     }
 }

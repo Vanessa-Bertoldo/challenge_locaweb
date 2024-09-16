@@ -1,5 +1,7 @@
+using AutoMapper;
 using Challenge_Locaweb.Models;
 using Challenge_Locaweb.Services;
+using Challenge_Locaweb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,20 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+#region AutoMapper
+var mapperConfig = new MapperConfiguration(config =>
+{
+    config.AllowNullCollections = true;
+    config.AllowNullDestinationValues = true;
+
+   // config.CreateMap<UserModel, UserViewModel().ReverseMap();
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+#endregion
 
 var app = builder.Build();
 
