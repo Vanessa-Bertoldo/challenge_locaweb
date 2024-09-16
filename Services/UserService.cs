@@ -23,7 +23,7 @@ namespace Challenge_Locaweb.Services
         public async Task<bool> CreateUser(InsertUserModel user)
         {
             var userExists = await this.userExists(user);
-            if (userExists != null) return false;
+            if (userExists) return false;
             user.Password = HashPassword(user.Password);
             await _collectionNotId.InsertOneAsync(user);
             return true;

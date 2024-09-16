@@ -22,7 +22,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="user">O modelo do usuário a ser criado.</param>
         /// <returns>Um status indicando o resultado da operação.</returns>
-        [HttpPost(Name = "CreateUser")]
+        [HttpPost("Criar")]
         public async Task<IActionResult> CreateUser(InsertUserModel user)
         {
             var success = await _userService.CreateUser(user);
@@ -36,7 +36,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">O email do usuário a ser ativado ou desativado.</param>
         /// <returns>Um status indicando o resultado da operação.</returns>
-        [HttpPut("{email}", Name = "DisableOrDisableUser")]
+        [HttpPut("desativarAtivar/{email}")]
         public IActionResult DisableOrDisableUser(string email)
         {
             var result = _userService.DisableOrDisableUser(email);
@@ -48,7 +48,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="loginModel">O modelo contendo o email e a senha para login.</param>
         /// <returns>Um status indicando o resultado da operação.</returns>
-        [HttpPost("login", Name = "Login")] 
+        [HttpPost("login")] 
         public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
             if (login == null || string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))

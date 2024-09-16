@@ -20,7 +20,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">O email do usuário.</param>
         /// <returns>Status 200</returns>
-        [HttpPost]
+        [HttpPost("RegistrarPreferencias")]
         public async Task<IActionResult> CreatePreference(UserPreferencesModel preference)
         {
             var success = await _preferenceService.CreatePreference(preference);
@@ -32,7 +32,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">O email do usuário.</param>
         /// <returns>Dados das preferencias de um usuário</returns>
-        [HttpGet(Name = "Get preferences of user")]
+        [HttpGet("buscaPreferencias")]
         public async Task<List<UserPreferencesModel>> GetPreferences(string email)
             => await _preferenceService.GetPreferences(email);
     }

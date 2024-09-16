@@ -22,7 +22,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="message">Lista de emails excluídos.</param>
         /// <returns>Status 200.</returns>
-        [HttpGet("bin/{email}")]
+        [HttpGet("lixeira/{email}")]
         public async Task<ActionResult<List<MessageMongoModel>>> ListEmailsBin(string email)
         {
             var result = await _messageService.EmailListBin(email);
@@ -38,7 +38,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">Email a ser procurado as mensagens.</param>
         /// <returns>Status 200.</returns>
-        [HttpGet("receive/{email}")]
+        [HttpGet("buscaRecebidos/{email}")]
         public async Task<ActionResult<List<MessageMongoModel>>> ListEmailsReceived(string email)
         {
             var result = await _messageService.EmailListReceive(email);
@@ -54,7 +54,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">Email a ser procurado as mensagens.</param>
         /// <returns>Status 200.</returns>
-        [HttpGet("send/{email}")]
+        [HttpGet("buscaEnviados/{email}")]
         public async Task<ActionResult<List<MessageMongoModel>>> ListEmailsSent(string email)
         {
             var result = await _messageService.EmailListSend(email);
@@ -70,7 +70,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">Email a ser procurado as mensagens favoritas.</param>
         /// <returns>Lista de messages</returns>
-        [HttpGet("{email}")]
+        [HttpGet("buscaFavoritos/{email}")]
         public async Task<List<MessageMongoModel>>ListEmailsList(string email)
             => await _messageService.EmailFavoritelList(email);
 
@@ -79,7 +79,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">Email a ser procurado as spans.</param>
         /// <returns>Lista de messages</returns>
-        [HttpGet("spam/{email}")]
+        [HttpGet("buscaSpan/{email}")]
         public async Task<List<MessageMongoModel>> ListEmailsSpam(string email)
             => await _messageService.GetSpans(email);
 
@@ -88,7 +88,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="message">A mensagem a ser inserida.</param>
         /// <returns>Status 200.</returns>
-        [HttpPost]
+        [HttpPost("enviarEmail")]
         public async Task<IActionResult> sendoEmail([FromBody] MessageModel message)
         {
             await _messageService.InsertMessage(message);
