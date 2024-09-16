@@ -73,10 +73,19 @@ namespace Challenge_Locaweb.Controllers.v1
         /// Lista os emails favoritos de um usuário
         /// </summary>
         /// <param name="email">Email a ser procurado as mensagens favoritas.</param>
-        /// <returns>Status 200.</returns>
+        /// <returns>Lista de messages</returns>
         [HttpGet("{email}", Name = "EmailFavoritelList")]
         public async Task<List<MessageMongoModel>> EmailFavoritelList(string email)
             => await _messageService.EmailFavoritelList(email);
+
+        /// <summary>
+        /// Lista possíveis spans de um usuário
+        /// </summary>
+        /// <param name="email">Email a ser procurado as spans.</param>
+        /// <returns>Lista de messages</returns>
+        [HttpGet("spam/{email}", Name = "GetSpans")]
+        public async Task<List<MessageMongoModel>> GetSpans(string email)
+            => await _messageService.GetSpans(email);
     }
 }
 

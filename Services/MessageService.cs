@@ -26,7 +26,10 @@ namespace Challenge_Locaweb.Services
 
         public async Task<List<MessageMongoModel>> EmailListReceive(string email)
         {
-            var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email);
+            var filter = Builders<MessageMongoModel>.Filter.And(
+                Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email),
+                Builders<MessageMongoModel>.Filter.Eq(m => m.IsSpam, true)
+            ); 
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
 
@@ -48,6 +51,104 @@ namespace Challenge_Locaweb.Services
             );
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
+        }
+
+        public async Task<List<MessageMongoModel>> GetSpans(string email)
+        {
+            var messages = await _collectionMongo.Find(m => m.SenderName == email).ToListAsync();
+
+            var spanMessages = new List<MessageMongoModel>();
+
+            foreach (var message in messages)
+            {
+                if (IsMessageSpan(message))
+                {
+                    message.IsSpam = true;
+
+                    await _collectionMongo.ReplaceOneAsync(
+                        m => m.Id == message.Id,
+                        message
+                    );
+
+                    spanMessages.Add(message);
+                }
+            }
+
+            return spanMessages;
+
+
+        }
+
+        private bool IsMessageSpan(MessageMongoModel message)
+        {
+            string[] spamKeywords = {
+                "free",
+                "offer",
+                "win",
+                "prize",
+                "click here",
+                "click aqui",
+                "buy now",
+                "discount",
+                "limited time",
+                "exclusive offer",
+                "congratulations",
+                "no cost",
+                "risk-free",
+                "money-back",
+                "100% free",
+                "guaranteed",
+                "urgent",
+                "claim now",
+                "cash bonus",
+                "act now",
+                "unsubscribe",
+                "credit card required",
+                "instant access",
+                "cheap",
+                "fast cash",
+                "get paid",
+                "amazing deal",
+                "low price",
+                "grátis",
+                "oferta",
+                "ganhe",
+                "prêmio",
+                "clique aqui",
+                "compre agora",
+                "desconto",
+                "tempo limitado",
+                "oferta exclusiva",
+                "parabéns",
+                "sem custo",
+                "sem risco",
+                "garantia de devolução",
+                "100% grátis",
+                "garantido",
+                "urgente",
+                "resgate agora",
+                "bônus em dinheiro",
+                "aja agora",
+                "cancelar inscrição",
+                "cartão de crédito necessário",
+                "acesso imediato",
+                "barato",
+                "dinheiro rápido",
+                "seja pago",
+                "oferta incrível",
+                "preço baixo"
+            };
+
+
+            foreach (var keyword in spamKeywords)
+            {
+                if (message.Message.Contains(keyword, StringComparison.OrdinalIgnoreCase)) 
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

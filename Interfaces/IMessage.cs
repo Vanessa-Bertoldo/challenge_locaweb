@@ -9,5 +9,7 @@ namespace Challenge_Locaweb.Interfaces
         public Task<List<MessageMongoModel>> EmailListReceive(string email);
         public Task<List<MessageMongoModel>> EmailListSend(string email);
         public Task<List<MessageMongoModel>> EmailFavoritelList(string email);
+
+        public Task<List<MessageMongoModel>> GetSpans(string email);
     }
 }
