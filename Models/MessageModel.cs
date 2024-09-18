@@ -19,19 +19,19 @@ namespace Challenge_Locaweb.Models
         public string Subject { get; set; }
 
         [BsonElement("isSpam")]
-        public bool IsSpam { get; set; } = false;
+        public bool? IsSpam { get; set; }
 
         [BsonElement("isFavorite")]
-        public bool IsFavorite { get; set; } = false;
+        public bool? IsFavorite { get; set; }
 
         [BsonElement("isDelete")]
-        public bool IsDelete { get; set; } = false;
+        public bool? IsDelete { get; set; }
 
         [BsonElement("isRead")]
-        public bool IsRead { get; set; } = false;
+        public bool? IsRead { get; set; } 
 
         [BsonElement("Archives")]
-        public List<string> Archives { get; set; } = [];
+        public List<string>? Archives { get; set; }
 
     }
 }

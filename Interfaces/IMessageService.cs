@@ -15,5 +15,7 @@ namespace Challenge_Locaweb.Interfaces
         public Task<ActionResult<List<MessageMongoModel>>> EmailListBin(string email);
         public Task<bool> FavoriteMessage(string guidMessage);
         public Task<bool> DeleteMessage(string guidMessage);
+        public Task<ActionResult<List<MessageMongoModel>>> EmailListEvents(string email);
+
     }
 }

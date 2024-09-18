@@ -34,6 +34,15 @@ namespace Challenge_Locaweb.Models
         public bool IsRead { get; set; }
 
         [BsonElement("Archives")]
-        public List<string> Archives { get; set; } = [];
+        public List<string>? Archives { get; set; }
+
+        [BsonElement("DataEvent")]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime? DataEvent { get; set; }
+
+        [BsonElement("DataRegister")]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime DataRegister { get; set; } = DateTime.Now;
+
     }
 }

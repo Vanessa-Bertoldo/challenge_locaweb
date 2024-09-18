@@ -57,7 +57,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// <param name="email">Email a ser procurado as mensagens favoritas.</param>
         /// <returns>Lista de messages</returns>
         [HttpGet("buscaFavoritos/{email}")]
-        public async Task<List<MessageMongoModel>>ListEmailsList(string email)
+        public async Task<List<MessageMongoModel>>ListEmailsFavorite(string email)
             => await _messageService.EmailFavoritelList(email);
 
         /// <summary>
@@ -92,11 +92,11 @@ namespace Challenge_Locaweb.Controllers.v1
             var valid = await _messageService.DeleteMessage(guidMessage);
             if (valid)
             {
-                return Ok("Mensagem movida para a lixeira");
+                return Ok("Mensagem excluída com sucesso");
             }
             else
             {
-                return BadRequest("Erro ao mover mensagem para a lixeira");
+                return BadRequest("Erro ao excluír mensagem");
             }
         }
 
@@ -131,6 +131,22 @@ namespace Challenge_Locaweb.Controllers.v1
             if (result == null)
             {
                 return BadRequest("Endereço de email inválido");
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Lista os eventos de um email
+        /// </summary>
+        /// <param name="message">Lista de eventos.</param>
+        /// <returns>Status 200.</returns>
+        [HttpGet("eventos/{email}")]
+        public async Task<ActionResult<List<MessageMongoModel>>> ListEmailsEvents(string email)
+        {
+            var result = await _messageService.EmailListEvents(email);
+            if (result?.Result == null)
+            {
+                return BadRequest("Nenhum evento encontrado para esse email");
             }
             return Ok(result);
         }

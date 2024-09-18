@@ -35,7 +35,8 @@ namespace Challenge_Locaweb.Services
         {
             var filter = Builders<MessageMongoModel>.Filter.And(
                 Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email),
-                Builders<MessageMongoModel>.Filter.Eq(m => m.IsSpam, false)
+                Builders<MessageMongoModel>.Filter.Eq(m => m.IsSpam, false),
+                Builders<MessageMongoModel>.Filter.Eq(m => m.DataEvent, null)
             ); 
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
@@ -59,7 +60,10 @@ namespace Challenge_Locaweb.Services
 
         public async Task<List<MessageMongoModel>> EmailListSend(string email)
         {
-            var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email);
+            var filter = Builders<MessageMongoModel>.Filter.And(
+                Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email),
+                Builders<MessageMongoModel>.Filter.Eq(m => m.DataEvent, null)
+            );
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
         }
@@ -187,6 +191,13 @@ namespace Challenge_Locaweb.Services
             var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.Id, guidMessage);
             var result = await _collectionMongo.DeleteOneAsync(filter);
             return result.DeletedCount > 0;
+        }
+
+        public async Task<ActionResult<List<MessageMongoModel>>> EmailListEvents(string email)
+        {
+            var filter = Builders<MessageMongoModel>.Filter.Ne(m => m.DataEvent, null);
+
+            return await _collectionMongo.Find(filter).ToListAsync();
         }
     }
 }
