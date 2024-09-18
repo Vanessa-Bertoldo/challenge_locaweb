@@ -3,6 +3,8 @@ using Challenge_Locaweb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.JsonPatch;
+
 
 namespace Challenge_Locaweb.Services
 {
@@ -22,14 +24,18 @@ namespace Challenge_Locaweb.Services
         public async Task<List<MessageMongoModel>> ListMessages() =>
             await _collectionMongo.Find(x => true).ToListAsync();
 
-        public async Task InsertMessage(MessageModel message) =>
+        public async Task InsertMessage(MessageModel message)
+        {
+            message.IsSpam = IsMessageSpan(new MessageMongoModel { Message = message.Message });
+
             await _collection.InsertOneAsync(message);
+        }
 
         public async Task<List<MessageMongoModel>> EmailListReceive(string email)
         {
             var filter = Builders<MessageMongoModel>.Filter.And(
-                Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email),
-                Builders<MessageMongoModel>.Filter.Eq(m => m.IsSpam, true)
+                Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email),
+                Builders<MessageMongoModel>.Filter.Eq(m => m.IsSpam, false)
             ); 
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
@@ -53,7 +59,7 @@ namespace Challenge_Locaweb.Services
 
         public async Task<List<MessageMongoModel>> EmailListSend(string email)
         {
-            var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email);
+            var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.RemententName, email);
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
         }
@@ -69,30 +75,44 @@ namespace Challenge_Locaweb.Services
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
         }
+        
+        //public async Task<ResultModel> PatchMessageAsync(string id, JsonPatchDocument<MessageMongoModel> patchDoc)
+        //{
+        //    if (patchDoc == null)
+        //    {
+        //        return new ResultModel { Success = false, Message = "Valor inválido" };
+        //    }
+
+        //    var message = await _collectionMongo.Find(m => m.Id == id).FirstOrDefaultAsync();
+        //    if (message == null)
+        //    {
+        //        return new ResultModel { Success = false, Message = "Mensagem não encontrada" };
+        //    }
+
+        //    patchDoc.ApplyTo(message);
+
+        //    var updateDefinition = Builders<MessageMongoModel>.Update
+        //        .Set(m => m.IsRead, message.IsRead)
+        //        .Set(m => m.IsFavorite, message.IsFavorite)
+        //        .Set(m => m.IsDelete, message.IsDelete);
+
+        //    var result = await _collectionMongo.UpdateOneAsync(m => m.Id == id, updateDefinition);
+
+        //    if (result.ModifiedCount == 0)
+        //    {
+        //        return new ResultModel { Success = false, Message = "Falha ao atualizar dados" };
+        //    }
+
+        //    return new ResultModel { Success = true, Message = "Dados atualizados com sucesso" };
+        //}
+
+
 
         public async Task<List<MessageMongoModel>> GetSpans(string email)
         {
             var messages = await _collectionMongo.Find(m => m.SenderName == email).ToListAsync();
 
-            var spanMessages = new List<MessageMongoModel>();
-
-            foreach (var message in messages)
-            {
-                if (IsMessageSpan(message))
-                {
-                    message.IsSpam = true;
-
-                    await _collectionMongo.ReplaceOneAsync(
-                        m => m.Id == message.Id,
-                        message
-                    );
-
-                    spanMessages.Add(message);
-                }
-            }
-
-            return spanMessages;
-
+            return new List<MessageMongoModel>();
 
         }
 
@@ -165,7 +185,22 @@ namespace Challenge_Locaweb.Services
                 }
             }
 
+            if (CountMessagesFromSender(message.SenderName) > 3)
+            {
+                return true;
+            }
+
             return false;
         }
+
+
+        private int CountMessagesFromSender(string sender)
+        {
+            var filter = Builders<MessageModel>.Filter.Eq(m => m.RemententName, sender);
+            int count = (int)_collection.CountDocuments(filter);
+
+            return count;
+        }
+
     }
 }
