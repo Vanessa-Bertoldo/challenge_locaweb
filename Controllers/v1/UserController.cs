@@ -56,7 +56,7 @@ namespace Challenge_Locaweb.Controllers.v1
 
             var result = await _userService.Login(login.Email, login.Password);
 
-            return result ? Ok("Usuário logado com sucesso") : NotFound("Usuário não encontrado");
+            return result ? Ok("Usuário logado com sucesso") : NotFound("Usuário ou senha inválidos");
         }
 
     }

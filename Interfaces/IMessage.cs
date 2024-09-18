@@ -13,5 +13,6 @@ namespace Challenge_Locaweb.Interfaces
 
         public Task<List<MessageMongoModel>> GetSpans(string email);
         public Task<ActionResult<List<MessageMongoModel>>> EmailListBin(string email);
+        public Task<bool> FavoriteMessage(string guidMessage);
     }
 }

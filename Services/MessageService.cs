@@ -202,5 +202,22 @@ namespace Challenge_Locaweb.Services
             return count;
         }
 
+        public async Task<bool> FavoriteMessage(string guidMessage)
+        {
+            if(string.IsNullOrEmpty(guidMessage))
+            {
+                return false;
+            }
+
+            var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.Id, guidMessage);
+
+            var update = Builders<MessageMongoModel>.Update.Set(m => m.IsFavorite, true);
+
+            var result = await _collectionMongo.UpdateOneAsync(filter, update);
+
+            return result.ModifiedCount > 0;
+
+        }
+
     }
 }

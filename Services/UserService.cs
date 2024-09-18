@@ -70,5 +70,6 @@ namespace Challenge_Locaweb.Services
             if (userExists != null) return true;
             return false;
         }
+
     }
 }

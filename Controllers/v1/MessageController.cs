@@ -1,5 +1,6 @@
 ﻿using Challenge_Locaweb.Models;
 using Challenge_Locaweb.Services;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -93,6 +94,25 @@ namespace Challenge_Locaweb.Controllers.v1
         {
             await _messageService.InsertMessage(message);
             return Ok("Mensagem enviada com sucesso");
+        }
+
+        /// <summary>
+        /// Favorita um email
+        /// </summary>
+        /// <param name="guidMessage">guid da mensagem.</param>
+        /// <returns>Status 200.</returns>
+        [HttpGet("favoriteMessage/{guidMessage}")]
+        public async Task<IActionResult> UpdateMesssage(string guidMessage)
+        {
+            var valid = await _messageService.FavoriteMessage(guidMessage);
+            if(valid)
+            {
+                return Ok("Mensagem favoritada com sucesso");
+            }
+            else
+            {
+                return BadRequest("Erro ao favoritar mensagem");
+            }
         }
 
     }
