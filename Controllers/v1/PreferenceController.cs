@@ -1,4 +1,5 @@
-﻿using Challenge_Locaweb.Models;
+﻿using Challenge_Locaweb.Interfaces;
+using Challenge_Locaweb.Models;
 using Challenge_Locaweb.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +9,9 @@ namespace Challenge_Locaweb.Controllers.v1
     [Route("[controller]")]
     public class PreferenceController : Controller
     {
-        private readonly PreferenceService _preferenceService;
+        private readonly IPreferenceService _preferenceService;
 
-        public PreferenceController(PreferenceService preferenceService)
+        public PreferenceController(IPreferenceService preferenceService)
         {
             _preferenceService = preferenceService;
         }

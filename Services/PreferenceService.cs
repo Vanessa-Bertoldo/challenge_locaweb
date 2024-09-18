@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace Challenge_Locaweb.Services
 {
-    public class PreferenceService : IPreference
+    public class PreferenceService : IPreferenceService
     {
         private readonly IMongoCollection<UserPreferencesModel> _preferences;
 

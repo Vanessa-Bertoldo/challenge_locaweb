@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Challenge_Locaweb.Interfaces
 {
-    public interface IMessage
+    public interface IMessageService
     {
         public Task<List<MessageMongoModel>> ListMessages();
         public Task InsertMessage(MessageModel message);
@@ -14,5 +14,6 @@ namespace Challenge_Locaweb.Interfaces
         public Task<List<MessageMongoModel>> GetSpans(string email);
         public Task<ActionResult<List<MessageMongoModel>>> EmailListBin(string email);
         public Task<bool> FavoriteMessage(string guidMessage);
+        public Task<bool> DeleteMessage(string guidMessage);
     }
 }

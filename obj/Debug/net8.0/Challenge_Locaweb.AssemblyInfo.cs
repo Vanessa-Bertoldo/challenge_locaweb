@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Challenge_Locaweb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12a91eead0fd8c40b26a64864d3369a82d2deece")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6637a7500217049208fb3f44f8c5d903eef841c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Challenge_Locaweb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Challenge_Locaweb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

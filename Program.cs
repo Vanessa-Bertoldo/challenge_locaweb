@@ -1,4 +1,5 @@
 using AutoMapper;
+using Challenge_Locaweb.Interfaces;
 using Challenge_Locaweb.Models;
 using Challenge_Locaweb.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,12 +13,12 @@ builder.Services.Configure<MongoDBSettingsModel>(
     builder.Configuration.GetSection("MongoDBSettings"));
 
 // Configuração do AutoMapper
-//builder.Services.AddAutoMapper(typeof(MessageMongoModel));
 
 // Registro dos serviços
-builder.Services.AddSingleton<MessageService>();
-builder.Services.AddSingleton<UserService>();
-builder.Services.AddSingleton<PreferenceService>();
+builder.Services.AddSingleton<IMessageService,MessageService>();
+builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IPreferenceService, PreferenceService>();
+
 
 // Adicione controladores
 builder.Services.AddControllers()

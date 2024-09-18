@@ -10,9 +10,9 @@ namespace Challenge_Locaweb.Controllers.v1
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UserController(UserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
