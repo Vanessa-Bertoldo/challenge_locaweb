@@ -22,7 +22,7 @@ namespace Challenge_Locaweb.Controllers.v1
         /// <param name="email">O email do usuário.</param>
         /// <returns>Status 200</returns>
         [HttpPost("RegistrarPreferencias")]
-        public async Task<IActionResult> CreatePreference(UserPreferencesModel preference)
+        public async Task<IActionResult> CreatePreference([FromBody] UserPreferencesModel preference)
         {
             var success = await _preferenceService.CreatePreference(preference);
             return success ? Ok() : BadRequest("Erro ao salvar dados");
@@ -33,8 +33,8 @@ namespace Challenge_Locaweb.Controllers.v1
         /// </summary>
         /// <param name="email">O email do usuário.</param>
         /// <returns>Dados das preferencias de um usuário</returns>
-        [HttpGet("buscaPreferencias")]
-        public async Task<List<UserPreferencesModel>> GetPreferences(string email)
+        [HttpGet("buscaPreferencias/{email}")]
+        public async Task<List<UserPreferencesMongoModel>> GetPreferences(string email)
             => await _preferenceService.GetPreferences(email);
     }
 }

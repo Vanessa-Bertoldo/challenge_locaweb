@@ -26,18 +26,19 @@ namespace Challenge_Locaweb.Services
 
         public async Task InsertMessage(MessageModel message)
         {
-            message.IsSpam = IsMessageSpan(new MessageMongoModel { Message = message.Message });
-
             await _collection.InsertOneAsync(message);
         }
 
         public async Task<List<MessageMongoModel>> EmailListReceive(string email)
         {
+            await IsMessageSpan(email);
+
             var filter = Builders<MessageMongoModel>.Filter.And(
                 Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email),
                 Builders<MessageMongoModel>.Filter.Eq(m => m.IsSpam, false),
                 Builders<MessageMongoModel>.Filter.Eq(m => m.DataEvent, null)
-            ); 
+            );
+
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
 
@@ -88,82 +89,44 @@ namespace Challenge_Locaweb.Services
 
         }
 
-        private bool IsMessageSpan(MessageMongoModel message)
+        private async Task<bool> IsMessageSpan(string email)
         {
-            string[] spamKeywords = {
-                "free",
-                "offer",
-                "win",
-                "prize",
-                "click here",
-                "click aqui",
-                "buy now",
-                "discount",
-                "limited time",
-                "exclusive offer",
-                "congratulations",
-                "no cost",
-                "risk-free",
-                "money-back",
-                "100% free",
-                "guaranteed",
-                "urgent",
-                "claim now",
-                "cash bonus",
-                "act now",
-                "unsubscribe",
-                "credit card required",
-                "instant access",
-                "cheap",
-                "fast cash",
-                "get paid",
-                "amazing deal",
-                "low price",
-                "grátis",
-                "oferta",
-                "ganhe",
-                "prêmio",
-                "clique aqui",
-                "compre agora",
-                "desconto",
-                "tempo limitado",
-                "oferta exclusiva",
-                "parabéns",
-                "sem custo",
-                "sem risco",
-                "garantia de devolução",
-                "100% grátis",
-                "garantido",
-                "urgente",
-                "resgate agora",
-                "bônus em dinheiro",
-                "aja agora",
-                "cancelar inscrição",
-                "cartão de crédito necessário",
-                "acesso imediato",
-                "barato",
-                "dinheiro rápido",
-                "seja pago",
-                "oferta incrível",
-                "preço baixo"
+            HashSet<string> spamKeywords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "free", "offer", "win", "prize", "click here", "click aqui", "buy now", "discount",
+                "limited time", "exclusive offer", "congratulations", "no cost", "risk-free",
+                "money-back", "100% free", "guaranteed", "urgent", "claim now", "cash bonus",
+                "act now", "unsubscribe", "credit card required", "instant access", "cheap",
+                "fast cash", "get paid", "amazing deal", "low price", "grátis", "oferta",
+                "ganhe", "prêmio", "clique aqui", "compre agora", "desconto", "tempo limitado",
+                "oferta exclusiva", "parabéns", "sem custo", "sem risco", "garantia de devolução",
+                "100% grátis", "garantido", "urgente", "resgate agora", "bônus em dinheiro",
+                "aja agora", "cancelar inscrição", "cartão de crédito necessário", "acesso imediato",
+                "barato", "dinheiro rápido", "seja pago", "oferta incrível", "preço baixo"
             };
 
+              var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email);
+              var messages = await _collectionMongo.Find(filter).ToListAsync();
 
-            foreach (var keyword in spamKeywords)
-            {
-                if (message.Message.Contains(keyword, StringComparison.OrdinalIgnoreCase)) 
-                {
-                    return true;
-                }
-            }
+              string allMessagesContent = string.Join(" ", messages.Select(m => m.Message));
 
-            if (CountMessagesFromSender(message.SenderName) > 3)
-            {
-                return true;
-            }
+              foreach (var keyword in spamKeywords)
+              {
+                  if (allMessagesContent.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                  {
+                      return true;
+                  }
+              }
 
-            return false;
+              if (CountMessagesFromSender(email) > 3)
+              {
+                  return true;
+              }
+
+              return false;
         }
+
+
 
 
         private int CountMessagesFromSender(string sender)
@@ -198,6 +161,16 @@ namespace Challenge_Locaweb.Services
             var filter = Builders<MessageMongoModel>.Filter.Ne(m => m.DataEvent, null);
 
             return await _collectionMongo.Find(filter).ToListAsync();
+        }
+
+        public bool deleteEvent(string guidMessage)
+        {
+            var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.Id, guidMessage);
+            var message = _collectionMongo.Find(filter).FirstOrDefault();
+            var result = _collectionMongo.UpdateOne(
+                               filter, Builders<MessageMongoModel>.Update.Set(m => m.DataEvent, null));
+            return result.ModifiedCount > 0;
+
         }
     }
 }
