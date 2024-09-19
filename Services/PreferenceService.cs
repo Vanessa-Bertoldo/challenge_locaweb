@@ -19,20 +19,24 @@ namespace Challenge_Locaweb.Services
             _preferencesMongo = mongoDatabase.GetCollection<UserPreferencesMongoModel>(settings.Value.PreferenceCollection);
         }
 
-        public async Task<bool> CreatePreference(UserPreferencesModel preference, string userId)
+        public async Task<bool> CreatePreference(UserPreferencesMongoModel preference, string userId)
         {
-            var preferences = await GetPreferences(userId);
-            if (preferences.Count > 0)
-            {
-                var filter = Builders<UserPreferencesMongoModel>.Filter.Eq(m => m.UserId, userId);
-                var result = await _preferencesMongo.DeleteOneAsync(filter);
-            }
+            var filter = Builders<UserPreferencesMongoModel>.Filter.Eq(m => m.UserId, userId);
+            var pref = await _preferencesMongo.Find(filter).FirstOrDefaultAsync();
 
-            preference.UserId = userId;
-            _preferences.InsertOneAsync(preference).ContinueWith(task => task.IsCompletedSuccessfully);
-            return true;
+            if (pref.Theme.ToLower() == "dark")
+            {
+                preference.UserId = userId;
+                await _preferencesMongo.DeleteOneAsync(filter);
+                return true;
+            }
+            else
+            {
+                preference.UserId = userId;
+                await _preferencesMongo.InsertOneAsync(preference);
+                return true;
+            }
         }
-        
 
         public async Task<List<UserPreferencesMongoModel>> GetPreferences(string userId)
         {
