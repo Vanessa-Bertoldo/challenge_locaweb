@@ -80,14 +80,18 @@ namespace Challenge_Locaweb.Services
             if (filter == null) return null;
             return await _collectionMongo.Find(filter).ToListAsync();
         }
-        
+
         public async Task<List<MessageMongoModel>> GetSpans(string email)
         {
-            var messages = await _collectionMongo.Find(m => m.SenderName == email).ToListAsync();
+            var filter = Builders<MessageMongoModel>.Filter.And(
+                Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email),
+                Builders<MessageMongoModel>.Filter.Eq(m => m.IsSpam, true) 
+            );
 
-            return new List<MessageMongoModel>();
-
+            var messages = await _collectionMongo.Find(filter).ToListAsync();
+            return messages; 
         }
+
 
         private async Task<bool> IsMessageSpan(string email)
         {
