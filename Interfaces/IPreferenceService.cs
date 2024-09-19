@@ -5,7 +5,7 @@ namespace Challenge_Locaweb.Interfaces
 {
     public interface IPreferenceService
     {
-        public Task<bool> CreatePreference(UserPreferencesModel preference);
+        public Task<bool> CreatePreference(UserPreferencesModel preference, string userId);
         public Task<List<UserPreferencesMongoModel>> GetPreferences(string email);
     }
 }

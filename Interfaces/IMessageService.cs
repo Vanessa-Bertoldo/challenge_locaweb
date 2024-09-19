@@ -12,11 +12,11 @@ namespace Challenge_Locaweb.Interfaces
         public Task<List<MessageMongoModel>> EmailFavoritelList(string email);
 
         public Task<List<MessageMongoModel>> GetSpans(string email);
-        public Task<ActionResult<List<MessageMongoModel>>> EmailListBin(string email);
+        public Task<List<MessageMongoModel>> EmailListBin(string email);
         public Task<bool> FavoriteMessage(string guidMessage);
         public Task<bool> DeleteMessage(string guidMessage);
-        public Task<ActionResult<List<MessageMongoModel>>> EmailListEvents(string email);
-        public bool deleteEvent(string guidMessage);
+        public Task<List<MessageMongoModel>> EmailListEvents(string email);
+        public Task<bool> deleteEvent(string guidMessage);
 
     }
 }

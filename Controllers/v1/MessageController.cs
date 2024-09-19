@@ -144,14 +144,26 @@ namespace Challenge_Locaweb.Controllers.v1
         public async Task<ActionResult<List<MessageMongoModel>>> ListEmailsEvents(string email)
         {
             var result = await _messageService.EmailListEvents(email);
-            if (result?.Result == null)
+            if (result == null)
             {
                 return BadRequest("Nenhum evento encontrado para esse email");
             }
             return Ok(result);
         }
 
-
+        [HttpGet("deleteEvent/{guidMessage}")]
+        public async Task<IActionResult> DeleteEvent(string guidMessage)
+        {
+            var valid = await _messageService.deleteEvent(guidMessage);
+            if (valid)
+            {
+                return Ok("Evento excluído com sucesso");
+            }
+            else
+            {
+                return BadRequest("Erro ao excluir evento");
+            }
+        }
 
     }
 }

@@ -7,15 +7,12 @@ namespace Challenge_Locaweb.Models
         [BsonElement("email")]
         public string Email { get; set; }
         [BsonElement("notificationEnabled")]
-        public bool NotificationEnabled { get; set; }
+        public bool? NotificationEnabled { get; set; } = true;
 
         [BsonElement("Theme")]
-        public string Theme { get; set; }
+        public string? Theme { get; set; }
 
-        [BsonElement("backgroundImage")]
-        public string BackgroundImage { get; set; }
-
-        [BsonElement("backgroundColor")]
-        public string BackgroundColor { get; set; }
+        [BsonElement("userId")]
+        public string? UserId { get; set; }
     }
 }

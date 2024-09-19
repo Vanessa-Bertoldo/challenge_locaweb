@@ -19,22 +19,22 @@ namespace Challenge_Locaweb.Controllers.v1
         /// <summary>
         /// Registra as preferências de um usuário.
         /// </summary>
-        /// <param name="email">O email do usuário.</param>
+        /// <param name="preference">Preferencias do usuário.</param>
         /// <returns>Status 200</returns>
-        [HttpPost("RegistrarPreferencias")]
-        public async Task<IActionResult> CreatePreference([FromBody] UserPreferencesModel preference)
+        [HttpPost("RegistrarPreferencias/{userId}")]
+        public async Task<IActionResult> CreatePreference([FromBody] UserPreferencesModel preference, string userId)
         {
-            var success = await _preferenceService.CreatePreference(preference);
+            var success = await _preferenceService.CreatePreference(preference, userId);
             return success ? Ok() : BadRequest("Erro ao salvar dados");
         }
 
         /// <summary>
         /// Pega as preferências de um usuário.
         /// </summary>
-        /// <param name="email">O email do usuário.</param>
+        /// <param name="userId">Id do usuário.</param>
         /// <returns>Dados das preferencias de um usuário</returns>
-        [HttpGet("buscaPreferencias/{email}")]
-        public async Task<List<UserPreferencesMongoModel>> GetPreferences(string email)
-            => await _preferenceService.GetPreferences(email);
+        [HttpGet("buscaPreferencias/{userId}")]
+        public async Task<List<UserPreferencesMongoModel>> GetPreferences(string userId)
+            => await _preferenceService.GetPreferences(userId);
     }
 }

@@ -44,7 +44,7 @@ namespace Challenge_Locaweb.Services
 
         }
 
-        public async Task<ActionResult<List<MessageMongoModel>>> EmailListBin(string email)
+        public async Task<List<MessageMongoModel>> EmailListBin(string email)
         {
             var filter = Builders<MessageMongoModel>.Filter.And(
                          Builders<MessageMongoModel>.Filter.Eq(m => m.IsDelete, true),
@@ -105,7 +105,11 @@ namespace Challenge_Locaweb.Services
                 "barato", "dinheiro rápido", "seja pago", "oferta incrível", "preço baixo"
             };
 
-              var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email);
+             var filter = Builders<MessageMongoModel>.Filter.And(
+                Builders<MessageMongoModel>.Filter.Eq(m => m.SenderName, email),
+                Builders<MessageMongoModel>.Filter.Eq(m => m.DataRegister, DateTime.Now)
+              );
+
               var messages = await _collectionMongo.Find(filter).ToListAsync();
 
               string allMessagesContent = string.Join(" ", messages.Select(m => m.Message));
@@ -156,14 +160,14 @@ namespace Challenge_Locaweb.Services
             return result.DeletedCount > 0;
         }
 
-        public async Task<ActionResult<List<MessageMongoModel>>> EmailListEvents(string email)
+        public async Task<List<MessageMongoModel>> EmailListEvents(string email)
         {
             var filter = Builders<MessageMongoModel>.Filter.Ne(m => m.DataEvent, null);
 
             return await _collectionMongo.Find(filter).ToListAsync();
         }
 
-        public bool deleteEvent(string guidMessage)
+        public async Task<bool> deleteEvent(string guidMessage)
         {
             var filter = Builders<MessageMongoModel>.Filter.Eq(m => m.Id, guidMessage);
             var message = _collectionMongo.Find(filter).FirstOrDefault();
@@ -172,5 +176,6 @@ namespace Challenge_Locaweb.Services
             return result.ModifiedCount > 0;
 
         }
+
     }
 }
