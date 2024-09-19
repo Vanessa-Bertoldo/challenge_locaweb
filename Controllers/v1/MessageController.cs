@@ -151,7 +151,7 @@ namespace Challenge_Locaweb.Controllers.v1
             return Ok(result);
         }
 
-        [HttpGet("deleteEvent/{guidMessage}")]
+        [HttpGet("deletarEvento/{guidMessage}")]
         public async Task<IActionResult> DeleteEvent(string guidMessage)
         {
             var valid = await _messageService.deleteEvent(guidMessage);
